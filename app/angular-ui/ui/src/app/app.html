@@ -1,0 +1,11 @@
+<h2>Products</h2>
+
+<ul>
+  @for (p of products(); track p.ID) {
+    <li>
+      {{ p.name }} - {{ p.price }}
+    </li>
+  }
+</ul>
+
+<router-outlet />
