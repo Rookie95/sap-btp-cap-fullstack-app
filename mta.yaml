@@ -15,7 +15,6 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: hana-poc-db
-      - name: hana-poc-destination
 
   - name: hana-poc-db-deployer
     type: hdb
@@ -28,8 +27,16 @@ modules:
     path: approuter
     parameters:
       memory: 256M
+    properties:
+      destinations: >
+        [
+          {
+            "name": "cap-backend",
+            "url": "https://c38ba577trial-dev-hana-poc-srv.cfapps.us10-001.hana.ondemand.com",
+            "forwardAuthToken": false
+          }
+        ]
     requires:
-      - name: srv-api
       - name: hana-poc-destination
 
 resources:
@@ -53,3 +60,4 @@ resources:
             Type: HTTP
             ProxyType: Internet
             Authentication: NoAuthentication
+            forwardAuthToken: false
