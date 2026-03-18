@@ -1,42 +1,55 @@
 _schema-version: 3.3.0
 ID: hana-poc
 version: 1.0.0
-description: "A simple CAP project."
-parameters:
-  enable-parallel-deployments: true
-build-parameters:
-  before-all:
-    - builder: custom
-      commands:
-        - npm ci
-        - npx cds build --production
+
 modules:
+
   - name: hana-poc-srv
     type: nodejs
     path: gen/srv
     parameters:
       instances: 1
-      buildpack: nodejs_buildpack
-    build-parameters:
-      builder: npm-ci
     provides:
-      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+      - name: srv-api
         properties:
           srv-url: ${default-url}
     requires:
       - name: hana-poc-db
+      - name: hana-poc-destination
 
   - name: hana-poc-db-deployer
     type: hdb
     path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
     requires:
       - name: hana-poc-db
 
+  - name: hana-poc-approuter
+    type: nodejs
+    path: approuter
+    parameters:
+      memory: 256M
+    requires:
+      - name: srv-api
+      - name: hana-poc-destination
+
 resources:
+
   - name: hana-poc-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
+
+  - name: hana-poc-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+        destinations:
+          - Name: cap-backend
+            URL: https://c38ba577trial-dev-hana-poc-srv.cfapps.us10-001.hana.ondemand.com
+            Type: HTTP
+            ProxyType: Internet
+            Authentication: NoAuthentication
