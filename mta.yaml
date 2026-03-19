@@ -15,6 +15,7 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: hana-poc-db
+      - name: hana-poc-xsuaa
 
   - name: hana-poc-db-deployer
     type: hdb
@@ -33,11 +34,12 @@ modules:
           {
             "name": "cap-backend",
             "url": "https://c38ba577trial-dev-hana-poc-srv.cfapps.us10-001.hana.ondemand.com",
-            "forwardAuthToken": false
+            "forwardAuthToken": true
           }
         ]
     requires:
       - name: hana-poc-destination
+      - name: hana-poc-xsuaa
 
 resources:
 
@@ -60,4 +62,11 @@ resources:
             Type: HTTP
             ProxyType: Internet
             Authentication: NoAuthentication
-            forwardAuthToken: false
+            forwardAuthToken: true
+
+  - name: hana-poc-xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json

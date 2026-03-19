@@ -1,0 +1,24 @@
+{
+  "xsappname": "hana-poc-xsuaa",
+  "tenant-mode": "dedicated",
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://*.cfapps.us10-001.hana.ondemand.com/**"
+    ]
+  },
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.User",
+      "description": "User access"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "User",
+      "description": "Basic user role",
+      "scope-references": [
+        "$XSAPPNAME.User"
+      ]
+    }
+  ]
+}

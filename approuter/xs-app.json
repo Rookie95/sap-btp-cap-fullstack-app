@@ -1,18 +1,20 @@
 {
   "welcomeFile": "/index.html",
-  "authenticationMethod": "none",
+  "authenticationMethod": "route",
   "routes": [
     {
       "source": "^/odata/(.*)$",
       "target": "/odata/$1",
       "destination": "cap-backend",
+      "authenticationType": "xsuaa",
       "csrfProtection": false
     },
     {
       "source": "^(.*)$",
       "target": "$1",
       "localDir": "ui",
-      "cacheControl": "no-cache"
+      "cacheControl": "no-cache",
+      "authenticationType": "xsuaa"
     }
   ]
 }
