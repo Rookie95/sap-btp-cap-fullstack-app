@@ -12,7 +12,7 @@
     {
       "source": "^(.*)$",
       "target": "$1",
-      "localDir": "ui",
+      "localDir": "ui/browser",
       "cacheControl": "no-cache",
       "authenticationType": "xsuaa"
     }
