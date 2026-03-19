@@ -21,4 +21,15 @@ export class App implements OnInit{
       });
   
   }
+  addProduct() {
+  alert('Add Product Clicked');
+}
+
+editProduct(product: any) {
+  alert('Edit: ' + product.name);
+}
+
+deleteProduct(product: any) {
+  alert('Delete: ' + product.name);
+}
 }
