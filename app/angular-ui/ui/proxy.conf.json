@@ -1,7 +1,8 @@
 {
-    "/odata": {
-        "target": "https://port4004-workspaces-ws-ke7im.us10.trial.applicationstudio.cloud.sap",
-            "secure": true,
-                "changeOrigin": true
-                  }
+  "/odata": {
+    "target": "http://localhost:4004",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
 }

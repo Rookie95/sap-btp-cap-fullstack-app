@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class App implements OnInit{
   products = signal<any[]>([]);
   constructor(private http: HttpClient){}
     ngOnInit() {
-      this.http.get<any>('/odata/v4/catalog/Products')
+      this.http.get<any>(`${environment.api}/v4/catalog/Products`)
       .subscribe(res => {
         this.products.set(res.value);
       });

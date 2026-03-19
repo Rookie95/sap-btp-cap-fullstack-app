@@ -3,5 +3,12 @@
     "auth": {
       "kind": "mocked"
     }
+  },
+  "[production]": {
+    "requires": {
+      "auth": {
+        "kind": "xsuaa"
+      }
+    }
   }
 }
