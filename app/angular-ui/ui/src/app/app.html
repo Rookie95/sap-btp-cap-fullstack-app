@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>📦 Product Management (Local and production and automate configuration)</h2>
+  <h2>📦 Product Management</h2>
   <div class="header">
     <button class="btn primary" (click)="addProduct()">+ Add Products</button>
   </div>
@@ -8,7 +8,7 @@
 
       <thead>
         <tr>
-          <th>ID</th>
+          <!-- <th>ID</th> -->
           <th>Name</th>
           <th>Price</th>
           <th>Stock</th>
@@ -18,12 +18,12 @@
       <tbody>
         @for(p of products(); track p.ID){
           <tr>
-            <td>{{p.ID}}</td>
+            <!-- <td>{{p.ID}}</td> -->
             <td>{{p.name}}</td>
             <td>₹ {{p.price}}</td>
             <td>{{p.stock}}</td>
             <td>
-              <button class="btn edit" (click)="addProduct()">Edit</button>
+              <button class="btn edit" (click)="editProduct(p)">Edit</button>
               <button class="btn delete" (click)="editProduct(p)">Delete</button>
             </td>
           </tr>

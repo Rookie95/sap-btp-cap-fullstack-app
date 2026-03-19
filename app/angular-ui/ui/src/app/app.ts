@@ -23,7 +23,19 @@ export class App implements OnInit{
   
   }
   addProduct() {
-  alert('Add Product Clicked');
+  console.log('Add clicked');  // 👈 add this
+
+  const newProduct = {
+    name: 'New Product',
+    price: 1000,
+    stock: 5
+  };
+
+  this.http.post('/odata/v4/catalog/Products', newProduct)
+    .subscribe(() => {
+      alert('Product Created');
+      this.ngOnInit();
+    });
 }
 
 editProduct(product: any) {
