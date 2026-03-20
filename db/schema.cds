@@ -1,6 +1,6 @@
 namespace my.poc;
 entity Products {
-    key ID : UUID;
+    key ID : UUID @default: cuid;
     name : String(100);
     price: Decimal(10, 2);
     stock: Integer;

@@ -1,0 +1,15 @@
+<div class="form-card">
+  <h3>{{ product?.ID ? 'Edit Product' : 'Add Product' }}</h3>
+
+  <form (ngSubmit)="submit()">
+    
+    <input type="text" placeholder="Name" [(ngModel)]="product.name" name="name" required>
+
+    <input type="number" placeholder="Price" [(ngModel)]="product.price" name="price" required>
+
+    <input type="number" placeholder="Stock" [(ngModel)]="product.stock" name="stock" required>
+
+    <button type="submit" class="btn primary">Save</button>
+    <button type="close" class="btn" (click)="cancel()">Cancel</button>
+  </form>
+</div>

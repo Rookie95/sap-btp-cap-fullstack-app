@@ -1,0 +1,38 @@
+<div class="container">
+  <h2>📦 Product Management</h2>
+  <div class="header">
+    <button class="btn primary" (click)="openAddForm()">+ Add Products</button>
+    @if(showForm){
+<app-product-form [product]="selectedProduct" (save)="saveProduct($event)" (close)="showForm = false"></app-product-form>
+    }
+    
+  </div>
+  <div class="card">
+    <table>
+
+      <thead>
+        <tr>
+          <!-- <th>ID</th> -->
+          <th>Name</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(p of products(); track p.ID){
+          <tr>
+            <!-- <td>{{p.ID}}</td> -->
+            <td>{{p.name}}</td>
+            <td>₹ {{p.price}}</td>
+            <td>{{p.stock}}</td>
+            <td>
+              <button class="btn edit" (click)="editProduct(p)">Edit</button>
+              <button class="btn delete" (click)="deleteProduct(p)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
