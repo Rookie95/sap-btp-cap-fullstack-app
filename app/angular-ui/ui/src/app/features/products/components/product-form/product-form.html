@@ -1,15 +1,113 @@
 <div class="form-card">
-  <h3>{{ product?.ID ? 'Edit Product' : 'Add Product' }}</h3>
 
-  <form (ngSubmit)="submit()">
-    
-    <input type="text" placeholder="Name" [(ngModel)]="product.name" name="name" required>
+  <div class="form-card-glow"></div>
 
-    <input type="number" placeholder="Price" [(ngModel)]="product.price" name="price" required>
+  <div class="form-header">
+    <div class="form-header-left">
+      <div class="form-icon" [class.is-edit]="product?.ID">
+        @if(product?.ID) {
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M12 2l4 4-9 9H3v-4L12 2z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        } @else {
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M9 3v12M3 9h12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        }
+        <div class="form-icon-ring"></div>
+      </div>
+      <div>
+        <h3 class="form-title">{{ product?.ID ? 'Edit Product' : 'New Product' }}</h3>
+        <p class="form-sub">{{ product?.ID ? 'Update product information' : 'Add to your catalog' }}</p>
+      </div>
+    </div>
+    <button class="close-btn" type="button" (click)="cancel()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
 
-    <input type="number" placeholder="Stock" [(ngModel)]="product.stock" name="stock" required>
+  <form (ngSubmit)="submit()" #pf="ngForm" novalidate>
+    <div class="form-body">
 
-    <button type="submit" class="btn primary">Save</button>
-    <button type="close" class="btn" (click)="cancel()">Cancel</button>
+      <div class="field" [class.field-error]="nameF.invalid && nameF.touched">
+        <label class="flabel">Product Name</label>
+        <div class="finput-wrap">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" class="ficon">
+            <rect x="1" y="3" width="13" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M1 7h13" stroke="currentColor" stroke-width="1.3"/>
+          </svg>
+          <input class="finput" type="text" placeholder="e.g. Wireless Headphones"
+            [(ngModel)]="product.name" name="name" #nameF="ngModel"
+            required minlength="2" autocomplete="off"/>
+        </div>
+        @if(nameF.invalid && nameF.touched) {
+          <span class="ferror">
+            {{ nameF.errors?.['required'] ? 'Name is required' : 'Min 2 characters' }}
+          </span>
+        }
+      </div>
+
+      <div class="field-row">
+        <div class="field" [class.field-error]="priceF.invalid && priceF.touched">
+          <label class="flabel">Price (₹)</label>
+          <div class="finput-wrap">
+            <span class="ficon fpre">₹</span>
+            <input class="finput" type="number" placeholder="0.00"
+              [(ngModel)]="product.price" name="price" #priceF="ngModel"
+              required min="0.01" step="0.01"/>
+          </div>
+          @if(priceF.invalid && priceF.touched) {
+            <span class="ferror">{{ priceF.errors?.['required'] ? 'Required' : 'Must be > 0' }}</span>
+          }
+        </div>
+
+        <div class="field" [class.field-error]="stockF.invalid && stockF.touched">
+          <label class="flabel">Stock Qty</label>
+          <div class="finput-wrap">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" class="ficon">
+              <path d="M2 4h11M2 7.5h11M2 11h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+            <input class="finput" type="number" placeholder="0"
+              [(ngModel)]="product.stock" name="stock" #stockF="ngModel"
+              required min="0" step="1"/>
+          </div>
+          @if(stockF.invalid && stockF.touched) {
+            <span class="ferror">{{ stockF.errors?.['required'] ? 'Required' : 'Cannot be negative' }}</span>
+          }
+        </div>
+      </div>
+
+      @if(product.name || product.price) {
+        <div class="preview-strip">
+          <span class="preview-lbl">Preview</span>
+          <div class="preview-row">
+            <span class="preview-name">{{ product.name || '—' }}</span>
+            <span class="preview-price">₹ {{ product.price | number:'1.2-2' }}</span>
+          </div>
+          <div class="preview-stock-row">
+            <div class="preview-bar-track">
+              <div class="preview-bar-fill" [style.width.%]="getStockPct()"></div>
+            </div>
+            <span class="preview-stock-num">{{ product.stock || 0 }} units</span>
+          </div>
+        </div>
+      }
+
+    </div>
+
+    <div class="form-footer">
+      <button type="button" class="fbtn-cancel" (click)="cancel()">Cancel</button>
+      <button type="submit" class="fbtn-save" [disabled]="pf.invalid || isSaving">
+        <span class="fbtn-shimmer"></span>
+        @if(isSaving) {
+          <span class="spinner"></span><span>Saving…</span>
+        } @else {
+          {{ product?.ID ? 'Update Product' : 'Create Product' }}
+        }
+      </button>
+    </div>
   </form>
+
 </div>
